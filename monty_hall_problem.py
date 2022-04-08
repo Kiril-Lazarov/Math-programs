@@ -1,16 +1,16 @@
 import random
-is_switched = 'No' 
+is_switched = 'Yes'
 
-wins = 0   #
-count = 500
+wins = 0
+count = 1000
 for i in range(count):
     behind_doors = ["goat", "car", "goat"]
     random.shuffle(behind_doors)
-    rand_int = random.randint(0,2)
+    rand_int = random.randint(0,2)      # makes random choice of "door" by index
     choice = behind_doors[rand_int]
-    behind_doors.pop(rand_int)
+    behind_doors.pop(rand_int)          # removes "the choice" from the list
     if behind_doors.count('goat') == 2:
-        delete = random.randint(0,1)
+        delete = random.randint(0,1)    # makes random choice which of "goat" member of the list to remove
         behind_doors.pop(delete)
     else:
         behind_doors.remove('goat')
