@@ -26,12 +26,27 @@ def program_inputs():
         else:
             return distance_y_axis
 
-    return {"Velocity": spaceship_speed(), "Distance_x": distance_x(), "Distance_y": distance_y()}
+    count_signals = abs(int(input("Enter for how many signals to calculate (integer):")))
+    data_dict = {"Velocity": spaceship_speed(), "Distance_x": distance_x(), "Distance_y": distance_y(),
+                 "Count_signals": count_signals}
+    gamma_factor_time(data_dict)
 
 
-def gamma_factor_time(program_inputs):
-    time_spaceship = sq(1- (program_inputs["Velocity"])**2)
+def gamma_factor_time(data_dict):
+    time_spaceship = sq(1 - (data_dict["Velocity"]) ** 2)
 
-    return time_spaceship
+    coordinates_spaceship_signals_points(str(time_spaceship), data_dict)
 
-print(gamma_factor_time(program_inputs()))
+
+def coordinates_spaceship_signals_points(data_dict, time_spaceship):
+    x_coordinate = float(f'{data_dict["Distance_x"]:.2f}') * -1
+    y_coordinate = float(f'{data_dict["Distance_y"]:.2f}') * -1
+    sequence_spaceship_points_of_signals = [x_coordinate]
+    for i in range(data_dict["Count_signals"]):
+        sequence_spaceship_points_of_signals[i] += sequence_spaceship_points_of_signals[i] * float(time_spaceship)
+        sequence_spaceship_points_of_signals.append(sequence_spaceship_points_of_signals[i])
+
+    print(sequence_spaceship_points_of_signals)
+
+
+program_inputs()
