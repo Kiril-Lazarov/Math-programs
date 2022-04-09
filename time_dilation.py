@@ -30,5 +30,8 @@ def program_inputs():
 
 
 def gamma_factor_time(program_inputs):
-    print(program_inputs["Velocity"] * 2)
-gamma_factor_time(program_inputs())
+    time_spaceship = sq(1- (program_inputs["Velocity"])**2)
+
+    return time_spaceship
+
+print(gamma_factor_time(program_inputs()))
