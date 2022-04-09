@@ -1,6 +1,24 @@
 from math import sqrt as sq
 
 
+def coordinates_spaceship_signals_points(data_dict, time_spaceship):
+    x_coordinate = float(f'{data_dict["Distance_x"]:.2f}')
+    velocity = float(data_dict["Velocity"])
+    sequence_spaceship_points_of_signals = [-x_coordinate]
+    distance_per_time_spaceship = velocity / time_spaceship
+    for i in range(data_dict["Count_signals"]):
+        new_point = distance_per_time_spaceship + sequence_spaceship_points_of_signals[-1]
+        sequence_spaceship_points_of_signals.append(float(f'{new_point:.2f}'))
+
+
+
+
+
+def gamma_factor_time(data_dict):
+    time_spaceship = sq(1 - (data_dict["Velocity"]) ** 2)
+    coordinates_spaceship_signals_points(data_dict, time_spaceship)
+
+
 def program_inputs():
     def spaceship_speed():
         spaceship_velocity = float(input("Enter velocity of spaceship (0,1)"))  # percentage speed of light
@@ -30,23 +48,6 @@ def program_inputs():
     data_dict = {"Velocity": spaceship_speed(), "Distance_x": distance_x(), "Distance_y": distance_y(),
                  "Count_signals": count_signals}
     gamma_factor_time(data_dict)
-
-
-def gamma_factor_time(data_dict):
-    time_spaceship = sq(1 - (data_dict["Velocity"]) ** 2)
-
-    coordinates_spaceship_signals_points(str(time_spaceship), data_dict)
-
-
-def coordinates_spaceship_signals_points(data_dict, time_spaceship):
-    x_coordinate = float(f'{data_dict["Distance_x"]:.2f}') * -1
-    y_coordinate = float(f'{data_dict["Distance_y"]:.2f}') * -1
-    sequence_spaceship_points_of_signals = [x_coordinate]
-    for i in range(data_dict["Count_signals"]):
-        sequence_spaceship_points_of_signals[i] += sequence_spaceship_points_of_signals[i] * float(time_spaceship)
-        sequence_spaceship_points_of_signals.append(sequence_spaceship_points_of_signals[i])
-
-    print(sequence_spaceship_points_of_signals)
 
 
 program_inputs()
