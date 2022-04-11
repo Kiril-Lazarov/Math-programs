@@ -1,6 +1,10 @@
 from math import sqrt as sq
 
 
+def pythagoras(x, y):
+    return sq(x ** 2 + y ** 2)
+
+
 def calculate_times_for_observer(sequence_spaceship_points_of_signals, data_dict, time_spaceship):
     y_coordinate = float(f'{data_dict["Distance_y"]:.2f}')
     velocity = data_dict["Velocity"]
@@ -13,12 +17,14 @@ def calculate_times_for_observer(sequence_spaceship_points_of_signals, data_dict
     for i in range(len(sequence_spaceship_points_of_signals)):
         x_coordinate = sequence_spaceship_points_of_signals[i]
         curr_dist_travel_along_x_axis = abs(start_point_x_axis - x_coordinate)
-        time_receiving_signal = curr_dist_travel_along_x_axis / velocity + sq(y_coordinate ** 2 + x_coordinate ** 2)
+        time_receiving_signal = 1 / time_spaceship * (i + 1) + sq(y_coordinate ** 2 + x_coordinate ** 2) \
+                                - abs(sequence_spaceship_points_of_signals[i])
+        print(sq(y_coordinate ** 2 + x_coordinate ** 2))
         sequence_observer.append(time_receiving_signal)
         diff = sequence_observer[i + 1] - sequence_observer[i]
         print(f'Signal {i + 2}: {time_receiving_signal:.2f} seconds  '
-              f' x coordinate of current signal {sequence_spaceship_points_of_signals[i]} Time interval between current'
-              f' and previous signal: {diff:.2f}')
+              f' x coordinate of current signal {sequence_spaceship_points_of_signals[i]}  Time interval between current'
+              f' and previous signal: {diff:.12f}')
 
 
 def coordinates_spaceship_signals_points(data_dict, time_spaceship):
@@ -41,7 +47,8 @@ def program_inputs():
     def spaceship_speed():
         while True:
             spaceship_velocity = float(
-                input("Enter velocity of spaceship as percentage of speed of light ")) /100  # percentage speed of light
+                input(
+                    "Enter velocity of spaceship as percentage of speed of light ")) / 100  # percentage speed of light
             if 0 < spaceship_velocity < 1:
                 break
             else:
@@ -51,7 +58,7 @@ def program_inputs():
     def distance_x():
         while True:
             distance_x_axis = float(input("Enter positive value for distance in light seconds along x axis:"))
-            if distance_x_axis >0:
+            if distance_x_axis > 0:
                 break
             else:
                 print("Invalid value")
