@@ -13,7 +13,7 @@ def calculate_times_for_observer(sequence_spaceship_points_of_signals, data_dict
     for i in range(len(sequence_spaceship_points_of_signals)):
         x_coordinate = sequence_spaceship_points_of_signals[i]
         curr_dist_travel_along_x_axis = abs(start_point_x_axis - x_coordinate)
-        time_receiving_signal =  curr_dist_travel_along_x_axis / velocity +  sq(y_coordinate ** 2 + x_coordinate ** 2)
+        time_receiving_signal = curr_dist_travel_along_x_axis / velocity + sq(y_coordinate ** 2 + x_coordinate ** 2)
         sequence_observer.append(time_receiving_signal)
         diff = sequence_observer[i + 1] - sequence_observer[i]
         print(f'Signal {i + 2}: {time_receiving_signal:.2f} seconds  '
@@ -39,29 +39,32 @@ def gamma_factor_time(data_dict):
 
 def program_inputs():
     def spaceship_speed():
-        spaceship_velocity = float(
-            input("Enter velocity of spaceship as percentage of speed of light "))  # percentage speed of light
-        if 0 > spaceship_velocity or spaceship_velocity >= 1:
-            print('Invalid velocity')
-            spaceship_speed()
-        else:
-            return spaceship_velocity
+        while True:
+            spaceship_velocity = float(
+                input("Enter velocity of spaceship as percentage of speed of light ")) /100  # percentage speed of light
+            if 0 < spaceship_velocity < 1:
+                break
+            else:
+                print("Invalid value")
+        return spaceship_velocity
 
     def distance_x():
-        distance_x_axis = float(input("Enter positive value for distance in light seconds among x axis:"))
-        if distance_x_axis <= 0:
-            print("Invalid value")
-            distance_x()
-        else:
-            return distance_x_axis
+        while True:
+            distance_x_axis = float(input("Enter positive value for distance in light seconds along x axis:"))
+            if distance_x_axis >0:
+                break
+            else:
+                print("Invalid value")
+        return distance_x_axis
 
     def distance_y():
-        distance_y_axis = float(input("Enter positive value for distance in light seconds among y axis:"))
-        if distance_y_axis <= 0:
-            print("Invalid value")
-            distance_y()
-        else:
-            return distance_y_axis
+        while True:
+            distance_y_axis = float(input("Enter positive value for distance in light seconds along y axis:"))
+            if distance_y_axis > 0:
+                break
+            else:
+                print("Invalid value")
+        return distance_y_axis
 
     count_signals = abs(int(input("Enter for how many signals to calculate (integer):")))
     data_dict = {"Velocity": spaceship_speed(), "Distance_x": distance_x(), "Distance_y": distance_y(),
