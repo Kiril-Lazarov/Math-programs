@@ -1,9 +1,5 @@
 from math import sqrt as sq, sin, acos
 
-distance_between_mirrors = 1
-
-a = sq(2)
-
 
 def pythagoras(x, y):
     return sq(x ** 2 + y ** 2)
@@ -50,11 +46,18 @@ def coordinates_spaceship_signals_points(inputs_dict):
     y_coordinate_a = float(f'{inputs_dict["Distance_y"]:.2f}')
     y_coordinate_b = y_coordinate_a + inputs_dict["Distance_between_mirrors"]
     velocity = float(inputs_dict["Velocity"])
+    path_length_x = velocity / sin(acos(velocity))
     sequence_spaceship_points_of_signals_a = {
-        1: [x_coordinate_a, y_coordinate_a]}  # Store x and y coordinates of photon where it reaches mirror "A"
+        1: (x_coordinate_a, y_coordinate_a)}  # Store x and y coordinates of photon where it reaches mirror "A"
     sequence_spaceship_points_of_signals_b = {}  # Store x and y coordinates of photon where it reaches mirror "B"
-    for i in range(inputs_dict["Count_signals"]):
-        x_coordinate_b = float(f'{sequence_spaceship_points_of_signals_a[1][0] + velocity / sin(acos(velocity)):.2f}')
-        
+    for i in range(inputs_dict["Count_signals"]):  # Fills the two dictionaries with data (x,y)
+        x_coordinate_b = float(
+            f'{sequence_spaceship_points_of_signals_a[i + 1][0] + path_length_x:.2f}')
+        sequence_spaceship_points_of_signals_b[i + 1] = (x_coordinate_b, y_coordinate_b)
+        x_coordinate_a = float(f'{sequence_spaceship_points_of_signals_b[i + 1][0] + path_length_x:.2f}')
+        sequence_spaceship_points_of_signals_a[i + 2] = (x_coordinate_a, y_coordinate_a)
+    dictionaries_list = [sequence_spaceship_points_of_signals_a, sequence_spaceship_points_of_signals_b]
+    return dictionaries_list
+
 
 coordinates_spaceship_signals_points(program_inputs())
