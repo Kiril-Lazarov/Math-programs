@@ -8,23 +8,24 @@ def pythagoras(x, y):
 def calculate_times_for_observer(sequence_spaceship_points_of_signals, data_dict, time_spaceship):
     y_coordinate = float(f'{data_dict["Distance_y"]:.2f}')
     velocity = data_dict["Velocity"]
-    sequence_observer = [0]
-    time_receiving_signal = 0
+    sequence_observer = []
+    path_diff = 0
     print(f"Spaceship's time run {1 / time_spaceship:.2f} times slower than observer's time.")
-    start_point_x_axis = sequence_spaceship_points_of_signals[0]
-    print(f'Signal 1: 0 seconds  x coordinate of current signal {sequence_spaceship_points_of_signals[0]:.2f}')
-    sequence_spaceship_points_of_signals = sequence_spaceship_points_of_signals[1:]
     for i in range(len(sequence_spaceship_points_of_signals)):
         x_coordinate = sequence_spaceship_points_of_signals[i]
-        curr_dist_travel_along_x_axis = abs(start_point_x_axis - x_coordinate)
-        time_receiving_signal = 1 / time_spaceship * (i + 1) + sq(y_coordinate ** 2 + x_coordinate ** 2) \
-                                - abs(sequence_spaceship_points_of_signals[i])
-        print(sq(y_coordinate ** 2 + x_coordinate ** 2))
-        sequence_observer.append(time_receiving_signal)
-        diff = sequence_observer[i + 1] - sequence_observer[i]
-        print(f'Signal {i + 2}: {time_receiving_signal:.2f} seconds  '
+        # calculates the distance that new signal need to travel after receiving of the previous signal
+        if i > 0:
+            path_diff = abs(pythagoras(sequence_spaceship_points_of_signals[i], y_coordinate) - \
+                            (pythagoras(sequence_spaceship_points_of_signals[i - 1],
+                                        y_coordinate) - 1 / time_spaceship))
+
+            sequence_observer.append(float(f'{sequence_observer[i-1] + path_diff:.2f}'))
+        else:
+            sequence_observer.append(float(f'{pythagoras(x_coordinate,y_coordinate):.2f}'))
+
+        print(f'Signal {i+1}: {sequence_observer[i]:.2f} seconds  '
               f' x coordinate of current signal {sequence_spaceship_points_of_signals[i]}  Time interval between current'
-              f' and previous signal: {diff:.12f}')
+              f' and previous signal: {path_diff:.12f}')
 
 
 def coordinates_spaceship_signals_points(data_dict, time_spaceship):
