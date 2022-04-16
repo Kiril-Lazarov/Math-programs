@@ -1,4 +1,4 @@
-from math import sqrt as sq, sin, acos
+from math import sqrt as sq, sin, acos, dist
 
 
 def pythagoras(x, y):
@@ -46,10 +46,10 @@ def coordinates_spaceship_signals_points(inputs_dict):
     y_coordinate_a = float(f'{inputs_dict["Distance_y"]:.2f}')
     y_coordinate_b = y_coordinate_a + inputs_dict["Distance_between_mirrors"]
     velocity = float(inputs_dict["Velocity"])
-    path_length_x = velocity / sin(acos(velocity))
+    path_length_x = velocity / sin(acos(velocity))  # The path spaceship traveled along x_axis with given speed
     sequence_spaceship_points_of_signals_a = {
-        1: (x_coordinate_a, y_coordinate_a)}  # Store x and y coordinates of photon where it reaches mirror "A"
-    sequence_spaceship_points_of_signals_b = {}  # Store x and y coordinates of photon where it reaches mirror "B"
+        1: (x_coordinate_a, y_coordinate_a)}  # Stores x and y coordinates of photon where it reaches mirror "A"
+    sequence_spaceship_points_of_signals_b = {}  # Stores x and y coordinates of photon where it reaches mirror "B"
     for i in range(inputs_dict["Count_signals"]):  # Fills the two dictionaries with data (x,y)
         x_coordinate_b = float(
             f'{sequence_spaceship_points_of_signals_a[i + 1][0] + path_length_x:.2f}')
@@ -60,4 +60,17 @@ def coordinates_spaceship_signals_points(inputs_dict):
     return dictionaries_list
 
 
-coordinates_spaceship_signals_points(program_inputs())
+def time_sequence_observer():
+    dict_list = coordinates_spaceship_signals_points(program_inputs())
+    mirror_a_points = dict_list[0]
+    del mirror_a_points[len(mirror_a_points)]  # Delete the last member of mirror_a dictionary
+    mirror_b_points = dict_list[1]
+    observer_receiving_times = []
+    for i in range(len(mirror_a_points)):
+        diff = (dist(mirror_a_points[i + 1], mirror_b_points[i + 1]) + dist(mirror_b_points[i + 1], (0, 0))
+                - dist(mirror_a_points[i + 1], (0, 0)))
+        observer_receiving_times.append(float(f'{diff:.2f}'))
+    print(observer_receiving_times)
+
+
+time_sequence_observer()
