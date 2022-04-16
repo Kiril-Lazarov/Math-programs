@@ -65,12 +65,14 @@ def time_sequence_observer():
     mirror_a_points = dict_list[0]
     del mirror_a_points[len(mirror_a_points)]  # Delete the last member of mirror_a dictionary
     mirror_b_points = dict_list[1]
-    observer_receiving_times = []
+    time_factor = dist(mirror_a_points[1],mirror_b_points[1])
     for i in range(len(mirror_a_points)):
-        diff = (dist(mirror_a_points[i + 1], mirror_b_points[i + 1]) + dist(mirror_b_points[i + 1], (0, 0))
-                - dist(mirror_a_points[i + 1], (0, 0)))
-        observer_receiving_times.append(float(f'{diff:.2f}'))
-    print(observer_receiving_times)
+
+        signal_from_a = dist(mirror_a_points[i + 1], (0, 0)) + 2*i*time_factor
+        signal_from_b = dist(mirror_b_points[i + 1], (0, 0)) + (2*i +1) * time_factor
+
+        print(f'Signal {2 * i + 1}: {float(signal_from_a):.2f}')
+        print(f'Signal {2 * i + 2}: {float(signal_from_b):.2f}  Difference: {abs(float(signal_from_a - signal_from_b)):.2f}')
 
 
 time_sequence_observer()
