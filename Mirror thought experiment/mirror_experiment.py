@@ -78,6 +78,10 @@ def time_sequence_observer():
         print(
             f'Signal {2 * i + 2}: {float(signal_from_b):.2f}  Difference: {abs(float(signal_from_a - signal_from_b)):.2f} '
             f'Mirror B point: {mirror_b_points[i+1][0]} ')
+    diff = 0
+    for i in range(len(time_intervals)-1):
+        diff += time_intervals[i+1] - time_intervals[i]
+    print(diff)
 
 
 time_sequence_observer()
