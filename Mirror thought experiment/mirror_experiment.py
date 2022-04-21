@@ -35,7 +35,7 @@ def program_inputs():
                 print("Invalid value")
         return distance_y_axis
 
-    count_signals = abs(int(input("Enter for how many signals to calculate (integer):")))
+    count_signals = abs(int(input("Enter how many signals to calculate (integer):")))
     data_dict = {"Velocity": spaceship_speed(), "Distance_x": distance_x(), "Distance_y": distance_y(),
                  "Count_signals": count_signals, "Distance_between_mirrors": 1}
     return data_dict
@@ -62,14 +62,18 @@ def coordinates_spaceship_signals_points(inputs_dict):
 
 def time_sequence_observer():
     dict_list = coordinates_spaceship_signals_points(program_inputs())
+    print(dict_list)
     mirror_a_points = dict_list[0]
     del mirror_a_points[len(mirror_a_points)]  # Delete the last member of mirror_a dictionary
     mirror_b_points = dict_list[1]
-    time_factor = dist(mirror_a_points[1], mirror_b_points[1])
+    time_factor = dist(mirror_a_points[1], mirror_b_points[1]) # calculates time dilation gamma factor
+    time_intervals = []  # stores info about total time interval between signals from the spaceship as they are
+                            # received by the observer
     for i in range(len(mirror_a_points)):
         signal_from_a = dist(mirror_a_points[i + 1], (0, 0)) + 2 * i * time_factor
         signal_from_b = dist(mirror_b_points[i + 1], (0, 0)) + (2 * i + 1) * time_factor
-
+        time_intervals.append(float(f'{signal_from_a:.2f}'))
+        time_intervals.append(float(f'{signal_from_b:.2f}'))
         print(f'Signal {2 * i + 1}: {float(signal_from_a):.2f}                   Mirror A point: {mirror_a_points[i+1][0]}')
         print(
             f'Signal {2 * i + 2}: {float(signal_from_b):.2f}  Difference: {abs(float(signal_from_a - signal_from_b)):.2f} '
