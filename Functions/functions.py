@@ -15,4 +15,19 @@ def ascii_sum(string):
     return total
 
 
+# find an indexes of character in a string
+def find_indexes(character, sequence):
+    char_sequence = [char for char in range(len(sequence)) if sequence[char] == character]
+    return char_sequence
 
+
+# find a fibonacci sequence to given member
+def fibonacci(number):
+    test_list = [0, 1]
+    fibonacci_list = [0, 1]
+    for i in range(number):
+        new_member = sum(test_list)
+        fibonacci_list.append(new_member)
+        test_list.append(new_member)
+        del test_list[0]
+    return ', '.join(map(str, fibonacci_list))
