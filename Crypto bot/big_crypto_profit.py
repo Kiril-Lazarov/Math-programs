@@ -35,24 +35,35 @@ def define_quantity(crypto, price):
         else:
             initial_percentage = 0.2
         quantities_dict['USDT'] *= (1 - initial_percentage)
-        quantities_dict['BTC'] += (quantities_dict['USDT'] * initial_percentage) / price * commission
-        last_bitcoin_trades.append((quantities_dict['USDT'] * initial_percentage) / price * commission)
+        quantity = (quantities_dict['USDT'] * initial_percentage) / price * commission
+        quantities_dict['BTC'] += quantity
+        last_bitcoin_trades.append(quantity)
     elif crypto == "BTC":
         if quantities_dict['BTC'] * 0.75 >= 0.010910:
             initial_percentage = 0.25
         else:
             initial_percentage = 0.2
+        quantity = (quantities_dict['BTC'] * initial_percentage) * price * commission
         quantities_dict["BTC"] *= (1 - initial_percentage)
-        quantities_dict["USDT"] += (quantities_dict['BTC'] * initial_percentage) * price * commission
-        
+        quantities_dict["USDT"] += quantity
+        last_usdt_trades.append(quantity)
+    return quantity
 
 
 # Execute orders
 def order_execution(price, side):
     if side == "Buy":
-        quantity = define_quantity("USDT", price)
+        if len(last_usdt_trades) == 0:
+            quantity = define_quantity("USDT", price)
+        else:
+            quantity = last_usdt_trades[-1]
+            del last_usdt_trades[-1]
     else:
-        pass
+        if len(last_bitcoin_trades) == 0:
+            quantity = define_quantity("BTC", price)
+        else:
+            quantity = last_bitcoin_trades[-1]
+            del last_bitcoin_trades[-1]
 
 
 def check_price(price):
