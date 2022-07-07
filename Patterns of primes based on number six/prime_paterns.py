@@ -4,7 +4,7 @@ from collections import deque
 def primes():
     primes_list = [2, 3]
     # num = int(input("Choose n>7 "))
-    num = 100
+    num = 100000
     if num <= 7:
         print('Invalid input')
         primes()
@@ -36,16 +36,35 @@ def patterns():
             right = 'False'
         combinations.append(right)
         combinations.append(left)
-
-
-        print(f'{right} {sixts - 2} --- {sixts - 1} --- {sixts} {left}', end='   ')
+        # print(f'{right} {sixts - 2} --- {sixts - 1} --- {sixts} {left}', end='   ')
     combinations.popleft()
     combinations.pop()
-    print(combinations)
     prime_boolean_tuples = []
+    true_true = ('True', 'True')
+    true_true_count = 0
+    true_false = ('True', 'False')
+    true_false_count = 0
+    false_true = ('False', 'True')
+    false_true_count = 0
+    false_false = ('False', 'False')
+    false_false_count = 0
     while combinations:
+        boolean_pair = (combinations.popleft(), combinations.popleft())
+        prime_boolean_tuples.append(boolean_pair)
+        if boolean_pair == true_true:
+            true_true_count += 1
+        elif boolean_pair == true_false:
+            true_false_count +=1
+        elif boolean_pair == false_true:
+            false_true_count += 1
+        else:
+            false_false_count +=1
+    print()
+    print(true_true_count)
+    print(true_false_count)
+    print(false_true_count)
+    print(false_false_count)
 
-            prime_boolean_tuples.append((combinations.popleft(), combinations.popleft()))
-    print(prime_boolean_tuples)
+
 
 patterns()
