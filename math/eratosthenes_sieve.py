@@ -1,3 +1,13 @@
+'''
+This program implements the Eratosthenes's method for deriving
+prime numbers. The idea is to delete all numbers which are multiples
+of every prime number in the sequence of the natural numbers from 2 to N.
+For example if we want to find all prime numbers to 20 we must start from 2 and
+delete all multiples of 2 exclude 2 itself - 4, 6, 8 and so on. Than take 3 and
+delete all multiples of 3 - 9 and  15 (6, 12 and 18 are already deleted as multiples
+of 2). Next take 5, 7, 11 and so on.
+'''
+
 from math import sqrt
 
 
