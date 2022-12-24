@@ -1,10 +1,12 @@
 from math import *
+
 '''
     Description:
-    
+
     This program calculates the length of a function in a given interval by breaking the curve into small straight lines
 and then summing them up. The accuracy of the result increases with the decrease in the size of the straight lines. 
 '''
+
 
 class FunctionLength:
     def __init__(self, func: str, down_limit, up_limit, number_of_divisions):
@@ -38,5 +40,5 @@ class FunctionLength:
                f' and {self.up_limit} is {self._calculate_y_values()}'
 
 
-a = FunctionLength('sin(x)', 0, 2*pi, 1000)
+a = FunctionLength('sin(x)', 0, 2 * pi, 1000)
 print(a)
