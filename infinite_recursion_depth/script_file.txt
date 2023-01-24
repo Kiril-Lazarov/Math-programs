@@ -1,0 +1,11 @@
+    with open(f'file_{n}.py', 'w') as file:
+        print(f'n = {n}')
+        call_string = f'file_{n}.py'
+        n+=1
+        script = open('script_file.txt')
+        script = script.read()
+        file.write(f'import os\nimport subprocess\n\nn = {n}\nif n < 100:\n{script}\n'
+                   f'    if n -1 >1:\n   '
+                   f'     file = f"file_{n-1}.py"\n        os.remove(file)\n    '
+                   f'subprocess.call(["python.exe", call_string])\n'
+                   f'else:\n    print("End program")')
