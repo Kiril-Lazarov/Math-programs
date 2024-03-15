@@ -8,33 +8,29 @@
 
 
 init_values = [
-    [0, 1, 2],
-    [0, 4, 5],
-    [1, 1, 4],
-    [1, 3, 1],
+    [0, 0, 5],
+    [0, 2, 7],
+    [0, 4, 6],
+    [0, 5, 1],
+    [0, 6, 9],
     [1, 5, 9],
-    [2, 7, 3],
-    [2, 8, 4],
-    [3, 4, 3],
-    [3, 5, 1],
+    [1, 8, 4],
+    [2, 0, 8],
+    [3, 1, 4],
+    [3, 4, 1],
     [4, 1, 8],
-    [4, 2, 5],
-    [4, 3, 9],
-    [4, 7, 4],
-    [5, 8, 9],
-    [6, 0, 5],
-    [6, 5, 7],
-    [6, 6, 8],
-    [6, 7, 6],
-    [7, 0, 7],
-    [7, 5, 6],
-    [7, 6, 9],
-    [7, 7, 2],
-    [7, 8, 3],
-    [8, 1, 6],
-    [8, 2, 2],
-    [8, 5, 3],
-
+    [4, 6, 7],
+    [5, 0, 7],
+    [5, 2, 1],
+    [5, 3, 5],
+    [5, 8, 3],
+    [6, 0, 9],
+    [6, 2, 6],
+    [6, 4, 5],
+    [6, 6, 4],
+    [7, 1, 1],
+    [8, 3, 3],
+    [8, 7, 2],
 ]
 matrix = [[None] * 9] * 9
 
@@ -63,6 +59,7 @@ def show_matrix(matrix):
                 print(col[0], end=',')
         print()
 
+
 def replace_nan(matrix):
     for i in range(len(matrix)):
         for j in range(len(matrix[i])):
@@ -75,7 +72,6 @@ def replace_nan(matrix):
 sudoku = replace_nan(sudoku)
 
 show_matrix(sudoku)
-
 
 
 def update_row(i, j, matrix):
@@ -144,7 +140,6 @@ def update_cell(i, j, matrix):
                         if isinstance(matrix[start_row_index + k][start_col_index + l], list):
 
                             if number == matrix[start_row_index + k][start_col_index + l]:
-
                                 matrix[start_row_index + k][start_col_index + l] = (number, False)
 
 
@@ -160,7 +155,7 @@ def check_rows_cols_cells(matrix):
                 temp[1] = True
                 matrix[i][j] = tuple(temp)
         # show_matrix(matrix)
-    check_to_convert_lists(sudoku)
+    # check_to_convert_lists(sudoku)
 
     # for row in matrix:
     #     print(row)
@@ -175,6 +170,55 @@ def check_to_convert_lists(matrix):
                 if count_zeroes == 8:
                     value = [x for x in matrix[i][j] if x != 0][0]
                     matrix[i][j] = (value, False)
+                    update_row(i, j, matrix)
+                    update_col(i, j, matrix)
+                    update_cell(i, j, matrix)
+
+
+def get_cells_coordinates():
+    coordinates = []
+    for start_row_index in [0, 3, 6]:
+        for start_col_index in [0, 3, 6]:
+            for cell_row_index in range(3):
+                for cell_col_index in range(3):
+                    m_row = start_row_index + cell_row_index
+                    m_col = start_col_index + cell_col_index
+                    coordinates.append([m_row, m_col])
+    return coordinates
+
+
+def check_to_convert_cells(matrix):
+    cells_coordinates = get_cells_coordinates()
+    index = 0
+    flatten_cell_list = []
+    for coors in cells_coordinates:
+
+        row, col = coors
+
+        if isinstance(matrix[row][col], list):
+            flatten_cell_list += matrix[row][col]
+        index += 1
+        if index != 0 and index % 9 == 0:
+            unique_values = set(flatten_cell_list)
+            unique_values.discard(0)
+
+            for value in unique_values:
+                if flatten_cell_list.count(value) == 1:
+                    for coordinates in cells_coordinates[index - 9: index]:
+                        cell_row, cell_col = coordinates
+                        if isinstance(matrix[cell_row][cell_col], list):
+                            if value in matrix[cell_row][cell_col]:
+                                matrix[cell_row][cell_col] = (value, False)
+                                # Спорно е дали трябва да се ъпдейтват редовете и колоните на
+                                # този етап
+                                update_row(cell_row, cell_col, matrix)
+                                update_col(cell_row, cell_col, matrix)
+                                # print('От функцията check_to_convert_cells')
+                                matrix[cell_row][cell_col] = tuple([value, True])
+                                # show_matrix(matrix)
+                                break
+            flatten_cell_list = []
+    # print()
 
 
 def count_lists(matrix):
@@ -186,17 +230,19 @@ def count_lists(matrix):
             print(f'The sudoku is solved')
             for row in matrix:
                 for values in row:
-                    print(values[0],end= ',')
+                    print(values[0], end=',')
                 print()
             break
         check_rows_cols_cells(sudoku)
-        print()
-        show_matrix(sudoku)
+        # print()
+        # show_matrix(sudoku)
         check_to_convert_lists(sudoku)
         # check_rows_cols_cells(sudoku)
+        # print()
+        # show_matrix(sudoku)
+        check_to_convert_cells(sudoku)
         print()
         show_matrix(sudoku)
-
 
 
 print(count_lists(sudoku))
