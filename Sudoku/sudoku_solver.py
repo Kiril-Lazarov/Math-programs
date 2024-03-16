@@ -1,12 +1,3 @@
-# sudoku = list(range(9))
-# print(cell)
-# for i in range(len(sudoku)):
-#     sudoku[i] = list(range(9))
-# for row in sudoku:
-#     for col in row:
-#         row[col] = cell
-
-
 init_values = [
     [0, 0, 5],
     [0, 2, 7],
@@ -48,8 +39,6 @@ def distribute_init_values(init_values):
 sudoku = distribute_init_values(init_values)
 
 
-# print(sudoku)
-# [print(row) for row in sudoku]
 def show_matrix(matrix):
     for row in matrix:
         for col in row:
@@ -154,11 +143,6 @@ def check_rows_cols_cells(matrix):
                 temp = list(matrix[i][j])
                 temp[1] = True
                 matrix[i][j] = tuple(temp)
-        # show_matrix(matrix)
-    # check_to_convert_lists(sudoku)
-
-    # for row in matrix:
-    #     print(row)
 
 
 def check_to_convert_lists(matrix):
@@ -209,16 +193,14 @@ def check_to_convert_cells(matrix):
                         if isinstance(matrix[cell_row][cell_col], list):
                             if value in matrix[cell_row][cell_col]:
                                 matrix[cell_row][cell_col] = (value, False)
-                                # Спорно е дали трябва да се ъпдейтват редовете и колоните на
-                                # този етап
+
                                 update_row(cell_row, cell_col, matrix)
                                 update_col(cell_row, cell_col, matrix)
-                                # print('От функцията check_to_convert_cells')
+
                                 matrix[cell_row][cell_col] = tuple([value, True])
-                                # show_matrix(matrix)
+
                                 break
             flatten_cell_list = []
-    # print()
 
 
 def count_lists(matrix):
@@ -234,27 +216,12 @@ def count_lists(matrix):
                 print()
             break
         check_rows_cols_cells(sudoku)
-        # print()
-        # show_matrix(sudoku)
+
         check_to_convert_lists(sudoku)
-        # check_rows_cols_cells(sudoku)
-        # print()
-        # show_matrix(sudoku)
+
         check_to_convert_cells(sudoku)
-        print()
+
         show_matrix(sudoku)
 
 
-print(count_lists(sudoku))
-
-'''
-_,2,_,_,5,_,_,_,_,
-_,4,_,1,_,9,_,_,_,
-_,_,_,_,_,_,_,3,4,
-_,_,_,_,3,1,_,_,_,
-_,8,5,9,_,_,_,4,_,
-_,_,_,_,_,_,_,_,9,
-5,_,_,_,_,7,8,6,_,
-7,_,_,_,_,6,9,2,3,
-_,6,2,_,_,3,_,_,_,
-'''
+count_lists(sudoku)
