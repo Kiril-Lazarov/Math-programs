@@ -21,24 +21,12 @@ def create_primes(limit):
 
 
 # Combine pairwise the last prime number in the list with all preceding ones.
-def get_combinations(primes_list):
+def get_mean_numbers(primes_list):
     last_prime = primes_list[-1]
-    comb_list = []
+    integers_list = []
     for i in range(len(primes_list) - 1):
-        comb_list.append((primes_list[i], last_prime))
-    return comb_list
-
-
-primes = create_primes(20)[1:]
-get_combinations(primes)
-
-
-def get_mean_numbers(combinations_list):
-    integer_list = []
-    for pair in combinations_list:
-        mean_num = int(np.mean((pair)))
-        integer_list.append(mean_num)
-    return sorted(set(integer_list))
+        integers_list.append(int(np.mean([primes_list[i], last_prime])))
+    return list(set(integers_list))
 
 
 # Returns the first number whose difference with the previous one is greater than 1.
@@ -65,9 +53,7 @@ def create_first_numbers_list(limit):
 
         part_primes = primes[:index]
 
-        comb = get_combinations(part_primes)
-
-        integer_list = sorted(set(integer_list + get_mean_numbers(comb)))
+        integer_list = sorted(set(integer_list + get_mean_numbers(part_primes)))
 
         last_number = get_first_number(integer_list)
 
@@ -77,7 +63,7 @@ def create_first_numbers_list(limit):
     return first_numbers_list
 
 
-first_numbers = create_first_numbers_list(4000)
+first_numbers = create_first_numbers_list(8000)
 
 plt.plot(first_numbers)
 plt.show()
