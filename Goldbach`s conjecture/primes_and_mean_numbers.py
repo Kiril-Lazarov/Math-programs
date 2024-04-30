@@ -23,7 +23,8 @@ def count_missing_numbers(primes_list_vec):
     for ll in primes_list_vec:
         if len(ll) > 1:
             mean_nums = [ll[0] + ll[i] for i in range(1, len(ll[:]))]
-            all_nums = list(range(mean_nums[0], last_prime + 1))
+            # all_nums = list(range(mean_nums[0], mean_nums[-1] + 1))
+            all_nums = list(range(4, last_prime))
             missing_nums_count = len(set(mean_nums).symmetric_difference(all_nums))
             curr_mean_numbers[ll[0]] = missing_nums_count
     curr_mean_numbers[last_prime] = 0
@@ -47,14 +48,14 @@ def create_natural_numbers(count_iterations, current_iteration, primes_list, num
 
 primes = create_primes(30)[1:]
 
-primes_vec = create_natural_numbers(6, 0, primes, [])
+primes_vec = create_natural_numbers(7, 0, primes, [])
 
 missing_numbers = count_missing_numbers(primes_vec)
 
 for ll in primes_vec:
     print(f'{ll[0]} ({missing_numbers[ll[0]]})-> {[ll[0] + ll[i] for i in range(1, len(ll[:]))]}')
 total_len_primes_vec = sum([len(x) - 1 for x in primes_vec])
-numbers_count = primes_vec[-1][0] - primes_vec[0][0]
+numbers_count = (primes_vec[-1][0] - 4) * (len(primes) -1)
 missing_numbers_count = sum(missing_numbers.values())
 first_mean_number_without_prime_pair = missing_numbers_count - total_len_primes_vec - 1
 
